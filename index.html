@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solo Level</title>
+  <meta name="color-scheme" content="dark" />
+  <link rel="stylesheet" href="./app.css" />
+</head>
+<body>
+
+<div class="bg-grid" aria-hidden="true"></div>
+
+<div class="app">
+
+  <!-- HUD Top Bar -->
+  <header class="hud">
+    <div class="hud-left">
+      <div class="rank-badge" id="hudRank">E</div>
+      <div class="hud-chip">
+        <span>LV</span> <strong id="hudLevel">1</strong>
+      </div>
+      <div class="hud-chip streak-chip">
+        <span>&#x1F525;</span> <strong id="hudStreak">0</strong>
+      </div>
+    </div>
+    <div class="hud-xp">
+      <div class="xpbar"><span id="hudXpBar"></span></div>
+      <div class="hud-chip"><span>XP</span> <strong id="hudXp">0/100</strong></div>
+    </div>
+    <div class="hud-right">
+      <button class="btn icon-btn" id="menuBtn" type="button">&#x2630;</button>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 50" width="32" height="28">
+          <defs>
+            <linearGradient id="sl-red" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ff6b6b"/>
+              <stop offset="100%" stop-color="#cc2222"/>
+            </linearGradient>
+            <linearGradient id="sl-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#67e8f9"/>
+              <stop offset="100%" stop-color="#0284c7"/>
+            </linearGradient>
+            <filter id="glow-red">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <text x="0" y="44" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="46" fill="url(#sl-red)" filter="url(#glow-red)">S</text>
+          <text x="30" y="44" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="46" fill="url(#sl-cyan)">L</text>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="name">SOLO LEVEL</div>
+        <div class="sub" id="brandSub">E-Rank Hunter</div>
+      </div>
+      <button class="brand-btn" id="closeSidebarBtn" type="button">CLOSE</button>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-btn active" type="button" data-view="dashboard" id="nav-dashboard">
+        <div class="nav-ic">&#x2694;</div>
+        <div class="nav-label">
+          <div class="t">Dashboard</div>
+          <div class="d">Daily quests</div>
+        </div>
+      </button>
+      <button class="nav-btn" type="button" data-view="quests" id="nav-quests">
+        <div class="nav-ic">&#x1F4DC;</div>
+        <div class="nav-label">
+          <div class="t">All Quests</div>
+          <div class="d">Manage quests</div>
+        </div>
+      </button>
+      <button class="nav-btn" type="button" data-view="stats" id="nav-stats">
+        <div class="nav-ic">&#x1F3C6;</div>
+        <div class="nav-label">
+          <div class="t">Stats</div>
+          <div class="d">STR,WIS,FOC,CON,DIS</div>
+        </div>
+      </button>
+      <button class="nav-btn" type="button" data-view="profile" id="nav-profile">
+        <div class="nav-ic">&#x1F3AF;</div>
+        <div class="nav-label">
+          <div class="t">Profile</div>
+          <div class="d">Rise rating &amp; rank</div>
+        </div>
+      </button>
+      <button class="nav-btn" type="button" data-view="achievements" id="nav-achievements">
+        <div class="nav-ic">&#x1F947;</div>
+        <div class="nav-label">
+          <div class="t">Trophies</div>
+          <div class="d">Unlock achievements</div>
+        </div>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="rise-display">
+        <div class="rise-label">RISE RATING</div>
+        <div class="rise-num" id="sideRise">0</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="content">
+
+    <!-- DASHBOARD -->
+    <section class="view active" id="view-dashboard" data-view="dashboard">
+      <div class="view-inner">
+        <div class="summary-card">
+          <div class="sc-left">
+            <div class="sc-label">DAILY QUESTS</div>
+            <div class="sc-big" id="dashPercent">0%</div>
+            <div class="sc-sub" id="dashQuestCount">0/0 complete</div>
+          </div>
+          <div class="sc-divider"></div>
+          <div class="sc-right">
+            <div class="sc-label">DAILY XP</div>
+            <div class="sc-big neon-cyan" id="dashDailyXP">0</div>
+          </div>
+        </div>
+
+        <div class="dash-progress">
+          <div class="prog-bar-wrap">
+            <div class="prog-bar" id="dashProgBar"><span></span></div>
+          </div>
+          <div class="prog-meta">
+            <span id="dashStreak">&#x1F525; 0 day streak</span>
+            <span id="dashBestStreak">Best: 0 days</span>
+          </div>
+        </div>
+
+        <div class="section-head">
+          <h2>Active Quests</h2>
+          <button class="btn" id="addQuestDashBtn" type="button">+ ADD</button>
+        </div>
+        <div class="quest-list" id="dashQuestList"></div>
+      </div>
+    </section>
+
+    <!-- ALL QUESTS -->
+    <section class="view" id="view-quests" data-view="quests">
+      <div class="view-inner">
+        <div class="view-title">
+          <div>
+            <h1>All Quests</h1>
+            <div class="sub" id="questListSub">Manage your quest roster</div>
+          </div>
+          <button class="btn primary" id="addQuestBtn" type="button">+ NEW QUEST</button>
+        </div>
+
+        <div class="filter-row">
+          <button class="filter-btn active" data-cat="all" type="button">All</button>
+          <button class="filter-btn" data-cat="daily" type="button">Daily</button>
+          <button class="filter-btn" data-cat="fitness" type="button">Fitness</button>
+          <button class="filter-btn" data-cat="mind" type="button">Mind</button>
+          <button class="filter-btn" data-cat="social" type="button">Social</button>
+        </div>
+
+        <div class="quest-list" id="questList"></div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="view" id="view-stats" data-view="stats">
+      <div class="view-inner">
+        <div class="view-title">
+          <div>
+            <h1>Stats</h1>
+            <div class="sub">Five dimensions of power. Each quest trains one.</div>
+          </div>
+        </div>
+
+        <div class="stats-grid" id="statsGrid"></div>
+
+        <div class="section-head" style="margin-top: 20px;">
+          <h2>Daily Breakdown</h2>
+        </div>
+        <div class="daily-breakdown" id="dailyBreakdown"></div>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="view" id="view-profile" data-view="profile">
+      <div class="view-inner">
+        <div class="view-title">
+          <div>
+            <h1>Profile</h1>
+            <div class="sub">Your journey as a Hunter.</div>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-rank-section">
+            <div class="profile-rank-badge" id="profileRank">E</div>
+            <div class="profile-info">
+              <input class="profile-name" id="profileName" type="text" value="Hunter" maxlength="20" />
+              <div class="profile-title" id="profileTitle">E-Rank Hunter</div>
+            </div>
+          </div>
+
+          <div class="profile-rating-row">
+            <div class="rating-box">
+              <div class="rating-num neon-cyan" id="profileRiseRating">0</div>
+              <div class="rating-label">CURRENT RISE</div>
+            </div>
+            <div class="rating-arrow">&#x2192;</div>
+            <div class="rating-box">
+              <div class="rating-num neon-purple" id="profilePotential">0</div>
+              <div class="rating-label">POTENTIAL RISE</div>
+            </div>
+          </div>
+          <div class="rating-note">Potential = rating after 66 consistent days</div>
+        </div>
+
+        <div class="level-card">
+          <div class="level-row">
+            <div class="level-left">
+              <div class="level-num" id="profileLevel">1</div>
+              <div class="level-label">LEVEL</div>
+            </div>
+            <div class="level-right">
+              <div class="level-sub-label">TOTAL XP</div>
+              <div class="level-total" id="profileTotalXP">0</div>
+            </div>
+          </div>
+          <div class="level-progress-wrap">
+            <div class="level-progress-bar"><span id="levelProgBar"></span></div>
+            <div class="level-progress-label" id="levelProgLabel">0/100 XP to next level</div>
+          </div>
+        </div>
+
+        <div class="streak-card">
+          <div class="streak-row">
+            <div class="streak-item">
+              <div class="streak-val" id="profileStreak">0</div>
+              <div class="streak-lbl">Current Streak</div>
+            </div>
+            <div class="streak-divider"></div>
+            <div class="streak-item">
+              <div class="streak-val neon-gold" id="profileBestStreak">0</div>
+              <div class="streak-lbl">Best Streak</div>
+            </div>
+            <div class="streak-divider"></div>
+            <div class="streak-item">
+              <div class="streak-val" id="profileTotalQuests">0</div>
+              <div class="streak-lbl">Quests Done</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS -->
+    <section class="view" id="view-achievements" data-view="achievements">
+      <div class="view-inner">
+        <div class="view-title">
+          <div>
+            <h1>Trophies</h1>
+            <div class="sub" id="achSub">0/16 unlocked</div>
+          </div>
+        </div>
+        <div class="ach-grid" id="achGrid"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Quest Modal -->
+<div class="modal-backdrop" id="questModal">
+  <div class="modal" role="dialog" aria-modal="true">
+    <h3 id="questModalTitle">New Quest</h3>
+    <input type="hidden" id="questModalId" />
+    <div class="mform">
+      <div class="fi">
+        <label>Quest Title</label>
+        <input class="inp" id="qTitle" type="text" placeholder="e.g. Wake up at 7:00 AM" />
+      </div>
+      <div class="fi-row">
+        <div class="fi">
+          <label>Category</label>
+          <select class="inp" id="qCategory">
+            <option value="daily">Daily</option>
+            <option value="fitness">Fitness</option>
+            <option value="mind">Mind</option>
+            <option value="social">Social</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+        <div class="fi">
+          <label>Rank (difficulty)</label>
+          <select class="inp" id="qRank">
+            <option value="e">E-Rank &#x2713;&#x2713;&#x2713;&#x2713;&#x2713; (+0%)</option>
+            <option value="d">D-Rank &#x2713;&#x2713;&#x2713;&#x2713;&#x2714; (+100%)</option>
+            <option value="c">C-Rank &#x2713;&#x2713;&#x2713;&#x2714;&#x2714; (+200%)</option>
+            <option value="b">B-Rank &#x2713;&#x2713;&#x2714;&#x2714;&#x2714; (+400%)</option>
+            <option value="a">A-Rank &#x2713;&#x2714;&#x2714;&#x2714;&#x2714; (+700%)</option>
+            <option value="s">S-Rank &#x2714;&#x2714;&#x2714;&#x2714;&#x2714; (+1100%)</option>
+          </select>
+        </div>
+      </div>
+      <div class="fi-row">
+        <div class="fi">
+          <label>XP Reward</label>
+          <input class="inp" id="qXP" type="number" value="50" min="5" max="500" />
+        </div>
+        <div class="fi">
+          <label>Trains Stat</label>
+          <select class="inp" id="qStat">
+            <option value="discipline">Discipline</option>
+            <option value="strength">Strength</option>
+            <option value="wisdom">Wisdom</option>
+            <option value="focus">Focus</option>
+            <option value="confidence">Confidence</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="m-actions">
+      <button class="btn" id="qCancel" type="button">CANCEL</button>
+      <button class="btn danger" id="qDelete" type="button" style="display:none;">DELETE</button>
+      <button class="btn primary" id="qSave" type="button">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Level Up Overlay -->
+<div class="levelup-overlay" id="levelUpOverlay" hidden>
+  <div class="levelup-card">
+    <div class="levelup-title">LEVEL UP</div>
+    <div class="levelup-level" id="levelUpNum">2</div>
+    <div class="levelup-msg" id="levelUpMsg">You are now Level 2</div>
+    <button class="btn primary" id="levelUpDismiss" type="button">CONTINUE</button>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toasts" id="toasts"></div>
+
+<script src="./app.js"></script>
+</body>
+</html>
