@@ -1,22 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 50" width="80" height="50">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 50" width="110" height="50">
   <defs>
-    <linearGradient id="sl-red" x1="0%" y1="0%" x2="0%" y2="100%">
+    <linearGradient id="lv-red" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#ff6b6b"/>
       <stop offset="100%" stop-color="#cc2222"/>
     </linearGradient>
-    <linearGradient id="sl-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+    <linearGradient id="lv-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#67e8f9"/>
       <stop offset="100%" stop-color="#0284c7"/>
     </linearGradient>
-    <filter id="glow-red">
-      <feGaussianBlur stdDeviation="2.5" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="glow-cyan">
+    <linearGradient id="lv-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <filter id="glow">
       <feGaussianBlur stdDeviation="2" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
-  <text x="0" y="44" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="48" fill="url(#sl-red)" filter="url(#glow-red)">S</text>
-  <text x="40" y="44" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="48" fill="url(#sl-cyan)" filter="url(#glow-cyan)">L</text>
+  <text x="0" y="40" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="42" fill="url(#lv-red)" filter="url(#glow)">5</text>
+  <text x="28" y="40" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="42" fill="url(#lv-cyan)" filter="url(#glow)">LU</text>
+  <text x="85" y="40" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="url(#lv-purple)" opacity="0.8">↑</text>
 </svg>
