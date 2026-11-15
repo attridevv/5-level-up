@@ -1,18 +1,20 @@
 # 5 Level Up
 
-> 🚧 **Work in progress.**
+> Lock in. A minimal pomodoro space with three worlds.
 
-A gamified life tracker. Daily habits and quests earn XP, XP becomes levels, levels unlock ranks (E → S), and streaks multiply it all.
+**Live:** https://attridevv.github.io/5-level-up/
 
-**Preview:** https://attridevv.github.io/5-level-up/
+1. **Focus**: a pomodoro dial (focus / short / long break) that you link to a task. **Lock in** goes fullscreen and hides everything except the timer.
+2. **Mind**: what's on your mind. Write down what you need to finish, pick one, then hit ▶ Focus.
+3. **Stats**: a Screen Time-style report: focus per hour or day, % change against your average, what you focused on most, streaks, levels, and 16 bronze/silver/gold achievements.
+
+Keys: `1` `2` `3` switch worlds · `Space` start/pause · `R` reset · `S` skip · `L` lock in · `N` new task.
 
 ## Stack
 
-Plain HTML, CSS and JavaScript — no framework, no build step. Progress is saved in your browser (`localStorage`).
+Plain HTML, CSS and JavaScript. No framework, no build step. Your data stays in your browser (`localStorage`, key `5lu-v2`). Export and import it from Settings.
 
 ## Run locally
-
-Open `index.html`, or:
 
 ```sh
 python3 -m http.server 8000

@@ -2,349 +2,220 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>5 Level Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>5 Level Up — lock in</title>
+  <meta name="description" content="A minimal pomodoro lock-in space: timer, what's on your mind, and stats with achievements." />
   <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#09090b" />
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./app.css" />
 </head>
-<body>
+<body data-world="focus" data-mode="focus">
 
-<div class="bg-grid" aria-hidden="true"></div>
+<div class="glow" aria-hidden="true"></div>
 
-<div class="app">
+<header class="top">
+  <a class="brand" href="./" aria-label="5 Level Up">
+    <span class="brand-mark">5LU</span>
+    <span class="brand-jp" aria-hidden="true">集中</span>
+  </a>
 
-  <!-- HUD Top Bar -->
-  <header class="hud">
-    <div class="hud-left">
-      <div class="rank-badge" id="hudRank">E</div>
-      <div class="hud-chip">
-        <span>LV</span> <strong id="hudLevel">1</strong>
-      </div>
-      <div class="hud-chip streak-chip">
-        <span>&#x1F525;</span> <strong id="hudStreak">0</strong>
-      </div>
+  <nav class="worlds" aria-label="Worlds">
+    <button class="world-btn" data-go="focus" type="button"><span class="k">01</span>Focus</button>
+    <button class="world-btn" data-go="mind" type="button"><span class="k">02</span>Mind</button>
+    <button class="world-btn" data-go="stats" type="button"><span class="k">03</span>Stats</button>
+    <span class="world-ink" aria-hidden="true"></span>
+  </nav>
+
+  <div class="top-right">
+    <div class="lv-chip" id="lvChip" title="Level">
+      <span class="lv-label">LV</span><strong id="lvNum">1</strong>
+      <span class="lv-bar"><span id="lvBar"></span></span>
     </div>
-    <div class="hud-xp">
-      <div class="xpbar"><span id="hudXpBar"></span></div>
-      <div class="hud-chip"><span>XP</span> <strong id="hudXp">0/100</strong></div>
-    </div>
-    <div class="hud-right">
-      <button class="btn icon-btn" id="menuBtn" type="button">&#x2630;</button>
-    </div>
-  </header>
+    <button class="icon-btn" id="settingsBtn" type="button" aria-label="Settings" title="Settings">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+    </button>
+  </div>
+</header>
 
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="brand">
-      <div class="brand-logo">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 50" width="32" height="28">
-          <defs>
-            <linearGradient id="sl-red" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#ff6b6b"/>
-              <stop offset="100%" stop-color="#cc2222"/>
-            </linearGradient>
-            <linearGradient id="sl-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#67e8f9"/>
-              <stop offset="100%" stop-color="#0284c7"/>
-            </linearGradient>
-            <filter id="glow-red">
-              <feGaussianBlur stdDeviation="2" result="blur"/>
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-          <text x="0" y="44" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="46" fill="url(#sl-red)" filter="url(#glow-red)">S</text>
-          <text x="30" y="44" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="46" fill="url(#sl-cyan)">L</text>
-        </svg>
-      </div>
-      <div class="brand-text">
-              <div class="name">5 LEVEL UP</div>
-              <div class="sub" id="brandSub">Level Up</div>
-      </div>
-      <button class="brand-btn" id="closeSidebarBtn" type="button">CLOSE</button>
+<main>
+
+  <!-- ============ 01 FOCUS ============ -->
+  <section class="world" id="world-focus" aria-label="Focus">
+    <div class="modes" role="tablist" aria-label="Timer mode">
+      <button class="mode-btn" data-mode="focus" type="button">Focus</button>
+      <button class="mode-btn" data-mode="short" type="button">Short break</button>
+      <button class="mode-btn" data-mode="long" type="button">Long break</button>
     </div>
 
-    <nav class="nav">
-      <button class="nav-btn active" type="button" data-view="dashboard" id="nav-dashboard">
-        <div class="nav-ic">&#x2694;</div>
-        <div class="nav-label">
-          <div class="t">Dashboard</div>
-          <div class="d">Daily quests</div>
-        </div>
-      </button>
-      <button class="nav-btn" type="button" data-view="quests" id="nav-quests">
-        <div class="nav-ic">&#x1F4DC;</div>
-        <div class="nav-label">
-          <div class="t">All Quests</div>
-          <div class="d">Manage quests</div>
-        </div>
-      </button>
-      <button class="nav-btn" type="button" data-view="stats" id="nav-stats">
-        <div class="nav-ic">&#x1F3C6;</div>
-        <div class="nav-label">
-          <div class="t">Stats</div>
-          <div class="d">STR,WIS,FOC,CON,DIS</div>
-        </div>
-      </button>
-      <button class="nav-btn" type="button" data-view="profile" id="nav-profile">
-        <div class="nav-ic">&#x1F3AF;</div>
-        <div class="nav-label">
-          <div class="t">Profile</div>
-          <div class="d">Rise rating &amp; rank</div>
-        </div>
-      </button>
-      <button class="nav-btn" type="button" data-view="achievements" id="nav-achievements">
-        <div class="nav-ic">&#x1F947;</div>
-        <div class="nav-label">
-          <div class="t">Trophies</div>
-          <div class="d">Unlock achievements</div>
-        </div>
-      </button>
-    </nav>
-
-    <div class="sidebar-footer">
-      <div class="rise-display">
-        <div class="rise-label">RISE RATING</div>
-        <div class="rise-num" id="sideRise">0</div>
+    <div class="dial-wrap">
+      <svg class="dial" viewBox="0 0 400 400" aria-hidden="true">
+        <g id="ticks"></g>
+        <circle class="dial-track" cx="200" cy="200" r="168" />
+        <circle class="dial-arc" id="arc" cx="200" cy="200" r="168" />
+        <circle class="dial-head" id="head" cx="200" cy="32" r="5" />
+      </svg>
+      <div class="dial-center">
+        <div class="dial-mode" id="dialMode">FOCUS · 集中</div>
+        <div class="time" id="time" role="timer" aria-live="off">25:00</div>
+        <div class="dial-sub" id="dialSub">Session 1 of 4</div>
       </div>
     </div>
-  </aside>
 
-  <!-- Main Content -->
-  <main class="content">
+    <div class="controls">
+      <button class="ctl" id="resetBtn" type="button" aria-label="Reset (R)" title="Reset · R">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+      </button>
+      <button class="ctl ctl-main" id="startBtn" type="button" title="Start / pause · Space">
+        <span id="startLabel">Start</span>
+      </button>
+      <button class="ctl" id="skipBtn" type="button" aria-label="Skip (S)" title="Skip · S">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 5 9 7-9 7z"/><path d="M19 5v14"/></svg>
+      </button>
+    </div>
 
-    <!-- DASHBOARD -->
-    <section class="view active" id="view-dashboard" data-view="dashboard">
-      <div class="view-inner">
-        <div class="summary-card">
-          <div class="sc-left">
-            <div class="sc-label">DAILY QUESTS</div>
-            <div class="sc-big" id="dashPercent">0%</div>
-            <div class="sc-sub" id="dashQuestCount">0/0 complete</div>
-          </div>
-          <div class="sc-divider"></div>
-          <div class="sc-right">
-            <div class="sc-label">DAILY XP</div>
-            <div class="sc-big neon-cyan" id="dashDailyXP">0</div>
-          </div>
-        </div>
+    <div class="focus-meta">
+      <label class="task-pick">
+        <span class="task-pick-k">Working on</span>
+        <select id="taskSelect" aria-label="Task for this session"></select>
+      </label>
 
-        <div class="dash-progress">
-          <div class="prog-bar-wrap">
-            <div class="prog-bar" id="dashProgBar"><span></span></div>
-          </div>
-          <div class="prog-meta">
-            <span id="dashStreak">&#x1F525; 0 day streak</span>
-            <span id="dashBestStreak">Best: 0 days</span>
-          </div>
-        </div>
-
-        <div class="section-head">
-          <h2>Active Quests</h2>
-          <button class="btn" id="addQuestDashBtn" type="button">+ ADD</button>
-        </div>
-        <div class="quest-list" id="dashQuestList"></div>
+      <div class="goal" title="Today's pomodoros vs daily goal">
+        <div class="goal-dots" id="goalDots"></div>
+        <span class="goal-txt" id="goalTxt">0 / 8 today</span>
       </div>
-    </section>
 
-    <!-- ALL QUESTS -->
-    <section class="view" id="view-quests" data-view="quests">
-      <div class="view-inner">
-        <div class="view-title">
-          <div>
-            <h1>All Quests</h1>
-            <div class="sub" id="questListSub">Manage your quest roster</div>
-          </div>
-          <button class="btn primary" id="addQuestBtn" type="button">+ NEW QUEST</button>
-        </div>
+      <button class="lock-btn" id="lockBtn" type="button" title="Lock in · L">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        Lock in
+      </button>
+    </div>
 
-        <div class="filter-row">
-          <button class="filter-btn active" data-cat="all" type="button">All</button>
-          <button class="filter-btn" data-cat="daily" type="button">Daily</button>
-          <button class="filter-btn" data-cat="fitness" type="button">Fitness</button>
-          <button class="filter-btn" data-cat="mind" type="button">Mind</button>
-          <button class="filter-btn" data-cat="social" type="button">Social</button>
-        </div>
+    <div class="locked-hud" aria-hidden="true">
+      <div class="locked-task" id="lockedTask"></div>
+      <button class="unlock-btn" id="unlockBtn" type="button">Esc to unlock</button>
+    </div>
+  </section>
 
-        <div class="quest-list" id="questList"></div>
+  <!-- ============ 02 MIND ============ -->
+  <section class="world" id="world-mind" aria-label="What's on your mind">
+    <div class="mind">
+      <div class="mind-head">
+        <h1>What's on your mind?</h1>
+        <p class="muted">Dump it here. Pick one. Lock in on it.</p>
       </div>
-    </section>
 
-    <!-- STATS -->
-    <section class="view" id="view-stats" data-view="stats">
-      <div class="view-inner">
-        <div class="view-title">
-          <div>
-            <h1>Stats</h1>
-            <div class="sub">Five dimensions of power. Each quest trains one.</div>
-          </div>
+      <form class="capture" id="captureForm" autocomplete="off">
+        <span class="capture-plus" aria-hidden="true">+</span>
+        <input id="captureInput" type="text" maxlength="160" placeholder="Something to finish…  (press N)" aria-label="New task" />
+        <kbd>↵</kbd>
+      </form>
+
+      <div class="mind-bar">
+        <div class="seg" id="taskFilter">
+          <button type="button" data-f="open" class="on">Open <span id="cntOpen">0</span></button>
+          <button type="button" data-f="done">Done <span id="cntDone">0</span></button>
         </div>
-
-        <div class="stats-grid" id="statsGrid"></div>
-
-        <div class="section-head" style="margin-top: 20px;">
-          <h2>Daily Breakdown</h2>
-        </div>
-        <div class="daily-breakdown" id="dailyBreakdown"></div>
+        <button type="button" class="link-btn" id="clearDone">Clear done</button>
       </div>
-    </section>
 
-    <!-- PROFILE -->
-    <section class="view" id="view-profile" data-view="profile">
-      <div class="view-inner">
-        <div class="view-title">
-          <div>
-            <h1>Profile</h1>
-            <div class="sub">Your journey as a Hunter.</div>
-          </div>
+      <ul class="tasks" id="taskList"></ul>
+      <div class="empty" id="taskEmpty"></div>
+    </div>
+  </section>
+
+  <!-- ============ 03 STATS ============ -->
+  <section class="world" id="world-stats" aria-label="Stats">
+    <div class="stats">
+      <div class="stats-top">
+        <div class="seg" id="rangeSeg">
+          <button type="button" data-r="day" class="on">Day</button>
+          <button type="button" data-r="week">Week</button>
         </div>
-
-        <div class="profile-card">
-          <div class="profile-rank-section">
-            <div class="profile-rank-badge" id="profileRank">E</div>
-            <div class="profile-info">
-              <input class="profile-name" id="profileName" type="text" value="Hunter" maxlength="20" />
-              <div class="profile-title" id="profileTitle">E-Rank Hunter</div>
-            </div>
-          </div>
-
-          <div class="profile-rating-row">
-            <div class="rating-box">
-              <div class="rating-num neon-cyan" id="profileRiseRating">0</div>
-              <div class="rating-label">CURRENT RISE</div>
-            </div>
-            <div class="rating-arrow">&#x2192;</div>
-            <div class="rating-box">
-              <div class="rating-num neon-purple" id="profilePotential">0</div>
-              <div class="rating-label">POTENTIAL RISE</div>
-            </div>
-          </div>
-          <div class="rating-note">Potential = rating after 66 consistent days</div>
-        </div>
-
-        <div class="level-card">
-          <div class="level-row">
-            <div class="level-left">
-              <div class="level-num" id="profileLevel">1</div>
-              <div class="level-label">LEVEL</div>
-            </div>
-            <div class="level-right">
-              <div class="level-sub-label">TOTAL XP</div>
-              <div class="level-total" id="profileTotalXP">0</div>
-            </div>
-          </div>
-          <div class="level-progress-wrap">
-            <div class="level-progress-bar"><span id="levelProgBar"></span></div>
-            <div class="level-progress-label" id="levelProgLabel">0/100 XP to next level</div>
-          </div>
-        </div>
-
-        <div class="streak-card">
-          <div class="streak-row">
-            <div class="streak-item">
-              <div class="streak-val" id="profileStreak">0</div>
-              <div class="streak-lbl">Current Streak</div>
-            </div>
-            <div class="streak-divider"></div>
-            <div class="streak-item">
-              <div class="streak-val neon-gold" id="profileBestStreak">0</div>
-              <div class="streak-lbl">Best Streak</div>
-            </div>
-            <div class="streak-divider"></div>
-            <div class="streak-item">
-              <div class="streak-val" id="profileTotalQuests">0</div>
-              <div class="streak-lbl">Quests Done</div>
-            </div>
-          </div>
+        <div class="range-nav">
+          <button class="icon-btn sm" id="prevRange" type="button" aria-label="Previous">‹</button>
+          <span id="rangeLabel">Today</span>
+          <button class="icon-btn sm" id="nextRange" type="button" aria-label="Next">›</button>
         </div>
       </div>
-    </section>
 
-    <!-- ACHIEVEMENTS -->
-    <section class="view" id="view-achievements" data-view="achievements">
-      <div class="view-inner">
-        <div class="view-title">
-          <div>
-            <h1>Trophies</h1>
-            <div class="sub" id="achSub">0/16 unlocked</div>
-          </div>
+      <div class="card hero-card">
+        <div class="hero-k" id="heroK">Focus time</div>
+        <div class="hero-v" id="heroV">0m</div>
+        <div class="hero-d" id="heroD"></div>
+
+        <div class="chart" id="chart">
+          <div class="chart-plot" id="chartPlot"></div>
+          <div class="chart-x" id="chartX"></div>
+          <div class="chart-tip" id="chartTip" role="status"></div>
+        </div>
+      </div>
+
+      <div class="tiles" id="tiles"></div>
+
+      <div class="card">
+        <div class="card-h">
+          <h2>Most focused on</h2>
+          <span class="muted sm" id="mostSub"></span>
+        </div>
+        <ul class="usage" id="usage"></ul>
+      </div>
+
+      <div class="card">
+        <div class="card-h">
+          <h2>Achievements <span class="jp">実績</span></h2>
+          <span class="muted sm" id="achSub">0 / 0</span>
         </div>
         <div class="ach-grid" id="achGrid"></div>
       </div>
-    </section>
-
-  </main>
-</div>
-
-<!-- Quest Modal -->
-<div class="modal-backdrop" id="questModal">
-  <div class="modal" role="dialog" aria-modal="true">
-    <h3 id="questModalTitle">New Quest</h3>
-    <input type="hidden" id="questModalId" />
-    <div class="mform">
-      <div class="fi">
-        <label>Quest Title</label>
-        <input class="inp" id="qTitle" type="text" placeholder="e.g. Wake up at 7:00 AM" />
-      </div>
-      <div class="fi-row">
-        <div class="fi">
-          <label>Category</label>
-          <select class="inp" id="qCategory">
-            <option value="daily">Daily</option>
-            <option value="fitness">Fitness</option>
-            <option value="mind">Mind</option>
-            <option value="social">Social</option>
-            <option value="custom">Custom</option>
-          </select>
-        </div>
-        <div class="fi">
-          <label>Rank (difficulty)</label>
-          <select class="inp" id="qRank">
-            <option value="e">E-Rank &#x2713;&#x2713;&#x2713;&#x2713;&#x2713; (+0%)</option>
-            <option value="d">D-Rank &#x2713;&#x2713;&#x2713;&#x2713;&#x2714; (+100%)</option>
-            <option value="c">C-Rank &#x2713;&#x2713;&#x2713;&#x2714;&#x2714; (+200%)</option>
-            <option value="b">B-Rank &#x2713;&#x2713;&#x2714;&#x2714;&#x2714; (+400%)</option>
-            <option value="a">A-Rank &#x2713;&#x2714;&#x2714;&#x2714;&#x2714; (+700%)</option>
-            <option value="s">S-Rank &#x2714;&#x2714;&#x2714;&#x2714;&#x2714; (+1100%)</option>
-          </select>
-        </div>
-      </div>
-      <div class="fi-row">
-        <div class="fi">
-          <label>XP Reward</label>
-          <input class="inp" id="qXP" type="number" value="50" min="5" max="500" />
-        </div>
-        <div class="fi">
-          <label>Trains Stat</label>
-          <select class="inp" id="qStat">
-            <option value="discipline">Discipline</option>
-            <option value="strength">Strength</option>
-            <option value="wisdom">Wisdom</option>
-            <option value="focus">Focus</option>
-            <option value="confidence">Confidence</option>
-          </select>
-        </div>
-      </div>
     </div>
-    <div class="m-actions">
-      <button class="btn" id="qCancel" type="button">CANCEL</button>
-      <button class="btn danger" id="qDelete" type="button" style="display:none;">DELETE</button>
-      <button class="btn primary" id="qSave" type="button">SAVE</button>
+  </section>
+</main>
+
+<footer class="keys" aria-hidden="true">
+  <span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> worlds</span>
+  <span><kbd>Space</kbd> start/pause</span>
+  <span><kbd>R</kbd> reset</span>
+  <span><kbd>S</kbd> skip</span>
+  <span><kbd>L</kbd> lock in</span>
+  <span><kbd>N</kbd> new task</span>
+</footer>
+
+<!-- Settings -->
+<dialog class="sheet" id="settings">
+  <form method="dialog" class="sheet-in" id="settingsForm">
+    <div class="sheet-h">
+      <h2>Settings</h2>
+      <button class="icon-btn" value="close" aria-label="Close">✕</button>
     </div>
-  </div>
-</div>
 
-<!-- Level Up Overlay -->
-<div class="levelup-overlay" id="levelUpOverlay" hidden>
-  <div class="levelup-card">
-    <div class="levelup-title">LEVEL UP</div>
-    <div class="levelup-level" id="levelUpNum">2</div>
-    <div class="levelup-msg" id="levelUpMsg">You are now Level 2</div>
-    <button class="btn primary" id="levelUpDismiss" type="button">CONTINUE</button>
-  </div>
-</div>
+    <div class="field-row">
+      <label>Focus <span><input type="number" name="focus" min="1" max="180" /> min</span></label>
+      <label>Short break <span><input type="number" name="short" min="1" max="60" /> min</span></label>
+      <label>Long break <span><input type="number" name="long" min="1" max="90" /> min</span></label>
+    </div>
+    <div class="field-row">
+      <label>Long break every <span><input type="number" name="every" min="2" max="12" /> sessions</span></label>
+      <label>Daily goal <span><input type="number" name="goal" min="1" max="24" /> pomodoros</span></label>
+    </div>
 
-<!-- Toast Container -->
-<div class="toasts" id="toasts"></div>
+    <label class="toggle"><input type="checkbox" name="autoBreak" /> <span>Auto-start breaks</span></label>
+    <label class="toggle"><input type="checkbox" name="autoFocus" /> <span>Auto-start focus after a break</span></label>
+    <label class="toggle"><input type="checkbox" name="sound" /> <span>Chime when a session ends</span></label>
+    <label class="toggle"><input type="checkbox" name="notify" /> <span>Desktop notification when a session ends</span></label>
+
+    <div class="sheet-foot">
+      <button type="button" class="link-btn" id="exportBtn">Export data</button>
+      <label class="link-btn">Import<input type="file" id="importInput" accept="application/json" hidden /></label>
+      <button type="button" class="link-btn danger" id="wipeBtn">Reset everything</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
 
 <script src="./app.js"></script>
 </body>
