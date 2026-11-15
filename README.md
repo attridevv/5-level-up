@@ -12,7 +12,7 @@ Keys: `1` `2` `3` switch worlds · `Space` start/pause · `R` reset · `S` skip 
 
 ## Stack
 
-Plain HTML, CSS and JavaScript. No framework, no build step. Your data stays in your browser (`localStorage`, key `5lu-v2`). Export and import it from Settings.
+One self-contained `index.html` (inline CSS and JS). No framework, no build step. Your data stays in your browser (`localStorage`, key `5lu-v2`). Export and import it from Settings.
 
 ## Run locally
 
